@@ -4,6 +4,7 @@ import model.Item;
 import services.ItemService;
 
 import javax.ejb.Singleton;
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -13,16 +14,19 @@ import java.util.List;
 @Path("/items")
 public class ItemResource
 {
+    @Inject
     private ItemService itemService;
 
-    public ItemResource()
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getTextItems()
     {
-        itemService = new ItemService();
+        return "bread, butter";
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getItems()
+    public Response getJsonItems()
     {
         List<Item> items = itemService.getAll();
         return Response.status(Response.Status.OK).entity(items).build();
