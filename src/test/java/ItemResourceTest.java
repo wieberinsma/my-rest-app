@@ -2,6 +2,7 @@ import controllers.ItemResource;
 import core.exceptions.IdAlreadyInUseException;
 import core.exceptions.ItemNotAvailableException;
 import model.Item;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,6 +17,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
+/**
+ * Nodig om Mockito te laten werken met jUnit 5 wanneer je in je test automatisch wil injecten; zie {@link InjectMocks}.
+ * Je hebt hierdoor zelfs geen {@link BeforeEach} methode meer nodig, omdat Mockito de SUT _ook_ zelf initialiseert.
+ *
+ * De tests zijn verder hetzelfde.
+ */
 @ExtendWith(MockitoExtension.class)
 public class ItemResourceTest
 {
@@ -71,13 +78,13 @@ public class ItemResourceTest
     }
 
     @Test
-    void addItemsCallsaAddItemOnService()
+    void addItemsCallsAddItemOnService()
     {
         // Arrange
         var item = new Item(37, "Chocolate spread", new String[] {"Breakfast, Lunch"}, "Not to much");
 
         // Act
-        sut.addItem(item);
+        Response response = sut.addItem(item);
 
         // Assert
         verify(itemService).addItem(item);
@@ -146,6 +153,7 @@ public class ItemResourceTest
 
         // Assert
         assertEquals(HTTP_OK, response.getStatus());
+        assertEquals(item, response.getEntity());
     }
 
     @Test
