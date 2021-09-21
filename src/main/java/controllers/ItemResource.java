@@ -9,16 +9,17 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Singleton
 @Path("/items")
 public class ItemResource
 {
-    @Inject
-    private ItemService itemService;
+    private Logger logger = Logger.getLogger(getClass().getName());
 
     @Inject
-    private int defaultInt;
+    private ItemService itemService;
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
@@ -31,6 +32,7 @@ public class ItemResource
     @Produces(MediaType.APPLICATION_JSON)
     public Response getJsonItems()
     {
+        logger.log(Level.SEVERE, "WHAT THE HECK");
         List<Item> items = itemService.getAll();
         return Response.status(Response.Status.OK).entity(items).build();
     }
