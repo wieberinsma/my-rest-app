@@ -17,9 +17,6 @@ public class ItemResource
     @Inject
     private ItemService itemService;
 
-    @Inject
-    private int defaultInt;
-
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String getTextItems()
