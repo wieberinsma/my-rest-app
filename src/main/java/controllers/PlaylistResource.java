@@ -6,10 +6,11 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 
-@Path("/playlists")
+@Path("")
 public class PlaylistResource
 {
     @GET
+    @Path("playlists")
     public PlaylistsResponse playlists(@QueryParam("token") String token)
     {
         return new PlaylistsResponse();

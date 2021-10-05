@@ -32,4 +32,8 @@ public class PersistenceConfig
         return properties.getProperty("url") + "?user=" + properties.getProperty("user") +
                 "&password=" + properties.getProperty("password") + "&serverTimezone=UTC";
     }
+
+    public Properties getProperties() {
+        return properties;
+    }
 }

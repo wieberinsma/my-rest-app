@@ -21,7 +21,7 @@ public class UserRepositoryImpl implements UserRepository
     {
         String query = "SELECT * FROM user_account WHERE username=" + username + " AND password=" + password;
 
-        Connection connection = null;
+        Connection connection;
         PreparedStatement statement = null;
 
         try

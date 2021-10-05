@@ -11,7 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import java.util.logging.Logger;
 
-@Path("/login")
+@Path("")
 public class LoginResource
 {
     private static final Logger logger = Logger.getLogger(LoginResource.class.getName());
@@ -20,6 +20,7 @@ public class LoginResource
     private LoginService loginService;
 
     @POST
+    @Path("login")
     public Response login(LoginRequest loginRequest)
     {
         var response = new LoginResponse();
