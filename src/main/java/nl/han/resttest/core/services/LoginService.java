@@ -1,6 +1,6 @@
-package services;
+package nl.han.resttest.core.services;
 
-import model.database.User;
+import nl.han.resttest.database.model.User;
 
 public interface LoginService
 {

@@ -1,4 +1,4 @@
-package model.api;
+package nl.han.resttest.api.model;
 
 public class LoginRequest
 {

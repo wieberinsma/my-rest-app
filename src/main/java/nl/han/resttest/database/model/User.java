@@ -1,6 +1,4 @@
-package model.database;
-
-import org.hibernate.annotations.GenericGenerator;
+package nl.han.resttest.database.model;
 
 import javax.persistence.*;
 
@@ -9,9 +7,7 @@ import javax.persistence.*;
 public class User
 {
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "org.hibernate.id.UUIDGenerator")
-    private String id;
+    private Long id;
 
     @Column(nullable = false)
     private String username;
@@ -27,6 +23,16 @@ public class User
 
     @Column(nullable = false)
     private String token;
+
+    public Long getId()
+    {
+        return id;
+    }
+
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
 
     public String getUsername()
     {

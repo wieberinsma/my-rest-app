@@ -1,9 +1,12 @@
-package controllers;
+package nl.han.resttest.core.controllers;
 
-import model.api.LoginRequest;
-import model.api.LoginResponse;
-import model.database.User;
-import services.LoginService;
+import nl.han.resttest.api.model.LoginRequest;
+import nl.han.resttest.api.model.LoginResponse;
+import nl.han.resttest.core.repositories.UserRepository;
+import nl.han.resttest.database.model.User;
+import nl.han.resttest.core.services.LoginService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 import javax.ws.rs.POST;
@@ -12,12 +15,16 @@ import javax.ws.rs.core.Response;
 import java.util.logging.Logger;
 
 @Path("")
+@Component
 public class LoginResource
 {
     private static final Logger logger = Logger.getLogger(LoginResource.class.getName());
 
     @Inject
     private LoginService loginService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @POST
     @Path("login")
