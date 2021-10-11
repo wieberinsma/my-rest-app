@@ -9,7 +9,7 @@ import javax.ws.rs.ApplicationPath;
  * _ResourceConfig_
  * Register the JAX-RS (Jersey) controllers
  */
-@ApplicationPath("/api")
+@ApplicationPath("")
 public class JerseyConfig extends ResourceConfig
 {
     public JerseyConfig()
