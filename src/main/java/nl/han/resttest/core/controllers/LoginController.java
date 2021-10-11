@@ -5,14 +5,14 @@ import nl.han.resttest.api.model.LoginResponse;
 import nl.han.resttest.core.repositories.UserRepository;
 import nl.han.resttest.core.services.LoginService;
 import nl.han.resttest.database.model.User;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import java.util.logging.Logger;
 
-@Path("")
+@RestController
 public class LoginController
 {
     private static final Logger logger = Logger.getLogger(LoginController.class.getName());
@@ -23,8 +23,7 @@ public class LoginController
     @Inject
     private UserRepository userRepository;
 
-    @POST
-    @Path("login")
+    @PostMapping("/login")
     public Response login(LoginRequest loginRequest)
     {
         var response = new LoginResponse();
