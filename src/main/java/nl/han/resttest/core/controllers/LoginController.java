@@ -2,14 +2,15 @@ package nl.han.resttest.core.controllers;
 
 import nl.han.resttest.api.model.LoginRequest;
 import nl.han.resttest.api.model.LoginResponse;
-import nl.han.resttest.core.repositories.UserRepository;
 import nl.han.resttest.core.services.LoginService;
 import nl.han.resttest.database.model.User;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
-import javax.ws.rs.core.Response;
 import java.util.logging.Logger;
 
 @RestController
@@ -20,11 +21,8 @@ public class LoginController
     @Inject
     private LoginService loginService;
 
-    @Inject
-    private UserRepository userRepository;
-
-    @PostMapping("/login")
-    public Response login(LoginRequest loginRequest)
+    @PostMapping(value = "/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest)
     {
         var response = new LoginResponse();
 
@@ -36,9 +34,9 @@ public class LoginController
         catch (Exception e)
         {
             logger.severe("Failed to retrieve user with valid token.");
-            return Response.status(Response.Status.FORBIDDEN).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        return Response.ok().entity(response).build();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
