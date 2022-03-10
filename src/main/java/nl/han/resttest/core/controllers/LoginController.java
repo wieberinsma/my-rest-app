@@ -2,8 +2,9 @@ package nl.han.resttest.core.controllers;
 
 import nl.han.resttest.api.model.LoginRequest;
 import nl.han.resttest.api.model.LoginResponse;
+import nl.han.resttest.core.model.User;
 import nl.han.resttest.core.services.LoginService;
-import nl.han.resttest.database.model.User;
+import nl.han.resttest.database.model.UserEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,10 +27,12 @@ public class LoginController
     {
         var response = new LoginResponse();
 
+        var user = new User(loginRequest.getUser(), loginRequest.getPassword(),  null, null);
+
         try {
-            User dbUser = loginService.loginUser(loginRequest.getUser(), loginRequest.getPassword());
-            response.setUser(dbUser.getFirstName() + " " + dbUser.getLastName());
-            response.setToken(dbUser.getToken());
+            UserEntity userEntity = loginService.loginUser(user);
+            response.setUser(userEntity.getFirstName() + " " + userEntity.getLastName());
+            response.setToken(userEntity.getToken());
         }
         catch (Exception e)
         {

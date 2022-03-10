@@ -1,12 +1,12 @@
 package nl.han.resttest.core.repositories;
 
-import nl.han.resttest.database.model.User;
+import nl.han.resttest.database.model.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>
+public interface UserRepository extends JpaRepository<UserEntity, Long>
 {
-    User findByUsernameAndPassword(String username, String password);
+    UserEntity findByUsernameAndPassword(String username, String password);
 
 }

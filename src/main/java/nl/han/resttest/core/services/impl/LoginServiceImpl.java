@@ -1,8 +1,9 @@
 package nl.han.resttest.core.services.impl;
 
+import nl.han.resttest.core.model.User;
 import nl.han.resttest.core.repositories.UserRepository;
 import nl.han.resttest.core.services.LoginService;
-import nl.han.resttest.database.model.User;
+import nl.han.resttest.database.model.UserEntity;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -15,15 +16,21 @@ public class LoginServiceImpl implements LoginService
     private UserRepository userRepository;
 
     @Override
-    public User loginUser(String username, String password)
+    public User loginUser(User user)
     {
-        User existingUser = userRepository.findByUsernameAndPassword(username, password);
+        User result = new User();
+
+        UserEntity existingUser = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
         if (existingUser != null)
         {
             String token = UUID.randomUUID().toString();
             existingUser.setToken(token);
             userRepository.save(existingUser);
-            return existingUser;
+
+            result.setToken(token);
+            result.setFullName(existingUser.getFirstName() + existingUser.getLastName());
+
+            return result;
         }
 
         return null;
