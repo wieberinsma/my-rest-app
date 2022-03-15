@@ -10,17 +10,6 @@ public class User
     
     private String token;
 
-    public User()
-    {
-
-    }
-
-    public User(String username, String password, String fullName, String token)
-    {
-        this.username = username;
-        this.password = password;
-    }
-
     public String getUsername()
     {
         return username;
@@ -36,9 +25,9 @@ public class User
         return fullName;
     }
 
-    public void setFullName(String fullName)
+    public void setFullName(String firstName, String lastName)
     {
-        this.fullName = fullName;
+        this.fullName = firstName + " " + lastName;
     }
 
     public String getPassword()

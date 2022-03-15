@@ -4,7 +4,6 @@ import nl.han.resttest.api.model.LoginRequest;
 import nl.han.resttest.api.model.LoginResponse;
 import nl.han.resttest.core.model.User;
 import nl.han.resttest.core.services.LoginService;
-import nl.han.resttest.database.model.UserEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,14 +24,14 @@ public class LoginController
     @PostMapping(value = "/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest)
     {
-        var response = new LoginResponse();
+        var responseBody = new LoginResponse();
 
-        var user = new User(loginRequest.getUser(), loginRequest.getPassword(),  null, null);
+        var user = loginService.mapToUser(loginRequest);
 
         try {
-            UserEntity userEntity = loginService.loginUser(user);
-            response.setUser(userEntity.getFirstName() + " " + userEntity.getLastName());
-            response.setToken(userEntity.getToken());
+            User responseData = loginService.loginUser(user);
+            responseBody.setUser(responseData.getFullName());
+            responseBody.setToken(responseData.getToken());
         }
         catch (Exception e)
         {
@@ -40,6 +39,6 @@ public class LoginController
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }
 }

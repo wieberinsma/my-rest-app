@@ -1,5 +1,6 @@
 package nl.han.resttest.core.services.impl;
 
+import nl.han.resttest.api.model.LoginRequest;
 import nl.han.resttest.core.model.User;
 import nl.han.resttest.core.repositories.UserRepository;
 import nl.han.resttest.core.services.LoginService;
@@ -18,21 +19,39 @@ public class LoginServiceImpl implements LoginService
     @Override
     public User loginUser(User user)
     {
-        User result = new User();
+        User result;
 
-        UserEntity existingUser = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
-        if (existingUser != null)
+        UserEntity userEntity = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+        if (userEntity != null)
         {
             String token = UUID.randomUUID().toString();
-            existingUser.setToken(token);
-            userRepository.save(existingUser);
+            userEntity.setToken(token);
+            userRepository.save(userEntity);
 
-            result.setToken(token);
-            result.setFullName(existingUser.getFirstName() + existingUser.getLastName());
+            result = mapToUser(userEntity);
 
             return result;
         }
 
         return null;
     }
+
+    @Override
+    public User mapToUser(LoginRequest loginRequest)
+    {
+        User result = new User();
+        result.setUsername(loginRequest.getUser());
+        result.setPassword(loginRequest.getPassword());
+        return result;
+    }
+
+    @Override
+    public User mapToUser(UserEntity userEntity)
+    {
+        User result = new User();
+        result.setFullName(userEntity.getFirstName(), userEntity.getLastName());
+        result.setToken(userEntity.getToken());
+        return result;
+    }
+
 }
