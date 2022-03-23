@@ -14,8 +14,16 @@
         <maven.compiler.target>12</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <javaee.version>8.0.1</javaee.version>
+        <postgres.version>42.3.3</postgres.version>
+        <hibernate.version>6.0.0.Alpha9</hibernate.version>
+        <spring.version>5.3.17</spring.version>
+        <spring.data.version>2.6.3</spring.data.version>
+
         <!-- Test properties-->
+        <junit.version>5.8.2</junit.version>
         <mockito.version>3.12.4</mockito.version>
+        <jersey.version>2.34</jersey.version>
     </properties>
 
     <packaging>war</packaging>
@@ -25,43 +33,39 @@
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
-            <version>8.0.1</version>
+            <version>${javaee.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.2.14</version>
+            <version>${postgres.version}</version>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>5.3.9</version>
+            <version>${spring.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
-            <version>2.5.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate.orm</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>6.0.0.Alpha9</version>
+            <version>${spring.data.version}</version>
+            <scope>compile</scope>
         </dependency>
 
         <!-- Test dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.7.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-launcher</artifactId>
-            <version>1.7.2</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -80,7 +84,7 @@
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-common</artifactId>
             <!-- Version 3.0.0+ does not work (ClassCastException on same class?) -->
-            <version>2.34</version>
+            <version>${jersey.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
