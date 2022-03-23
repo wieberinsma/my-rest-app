@@ -1,12 +1,9 @@
 package nl.han.resttest.database.model;
 
-import nl.han.resttest.core.model.StubTest;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.List;
 
 @Entity
 @Table(name = "user_account")
@@ -29,8 +26,6 @@ public class UserEntity
 
     @Column(nullable = false)
     private String token;
-
-    private List<StubTest> stubTests;
 
     public Long getId()
     {
@@ -90,15 +85,5 @@ public class UserEntity
     public void setToken(String token)
     {
         this.token = token;
-    }
-
-    public List<StubTest> getStubsTests()
-    {
-        return stubTests;
-    }
-
-    public void setStubTests(List<StubTest> stubTests)
-    {
-        this.stubTests = stubTests;
     }
 }

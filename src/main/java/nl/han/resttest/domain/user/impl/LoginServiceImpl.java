@@ -1,14 +1,14 @@
-package nl.han.resttest.core.services.impl;
+package nl.han.resttest.domain.user.impl;
 
 import nl.han.resttest.api.model.LoginRequest;
-import nl.han.resttest.core.model.User;
-import nl.han.resttest.core.repositories.UserRepository;
-import nl.han.resttest.core.services.LoginService;
+import nl.han.resttest.domain.user.impl.model.User;
+import nl.han.resttest.domain.user.spec.repository.UserRepository;
+import nl.han.resttest.domain.user.spec.service.LoginService;
 import nl.han.resttest.database.model.UserEntity;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.List;
+import java.util.UUID;
 
 @Service
 public class LoginServiceImpl implements LoginService
@@ -21,21 +21,16 @@ public class LoginServiceImpl implements LoginService
     {
         User result;
 
-        List<UserEntity> userEntitiesList = userRepository.findAll();
-//        UserEntity userEntity = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
-//        if (userEntity != null)
-//        {
-//            String token = UUID.randomUUID().toString();
-//            userEntity.setToken(token);
-//            userRepository.save(userEntity);
-//
-//            result = mapToUser(userEntity);
-//
-//            return result;
-//        }
+        UserEntity userEntity = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+        if (userEntity != null)
+        {
+            String token = UUID.randomUUID().toString();
+            userEntity.setToken(token);
+            userRepository.save(userEntity);
 
-        for (int i = 0; i < userEntitiesList.size(); i++) {
-            mapToUser(userEntitiesList.get(i));
+            result = mapToUser(userEntity);
+
+            return result;
         }
 
         return null;

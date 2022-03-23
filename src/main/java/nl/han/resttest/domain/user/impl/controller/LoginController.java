@@ -1,9 +1,9 @@
-package nl.han.resttest.core.controllers;
+package nl.han.resttest.domain.user.impl.controller;
 
 import nl.han.resttest.api.model.LoginRequest;
 import nl.han.resttest.api.model.LoginResponse;
-import nl.han.resttest.core.model.User;
-import nl.han.resttest.core.services.LoginService;
+import nl.han.resttest.domain.user.impl.model.User;
+import nl.han.resttest.domain.user.spec.service.LoginService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,21 +24,26 @@ public class LoginController
     @PostMapping(value = "/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest)
     {
-        var responseBody = new LoginResponse();
+        var response = new LoginResponse();
 
-        var user = loginService.mapToUser(loginRequest);
+        var dataIn = loginService.mapToUser(loginRequest);
 
         try {
-            User responseData = loginService.loginUser(user);
-            responseBody.setUser(responseData.getFullName());
-            responseBody.setToken(responseData.getToken());
+            var dataOut = loginService.loginUser(dataIn);
+            mapToResponse(response, dataOut);
         }
         catch (Exception e)
         {
-            logger.severe("Failed to retrieve user with valid token.");
+            logger.severe("Failed to login user.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(responseBody);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    private void mapToResponse(LoginResponse response, User responseData)
+    {
+        response.setUser(responseData.getFullName());
+        response.setToken(responseData.getToken());
     }
 }

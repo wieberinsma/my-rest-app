@@ -1,4 +1,4 @@
-package nl.han.resttest.core.model;
+package nl.han.resttest.domain.user.impl.model;
 
 public class User
 {

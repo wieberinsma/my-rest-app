@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"nl.han.resttest.core.controllers"})
+@ComponentScan(basePackages = {"nl.han.resttest.domain.user.impl.controller"})
 public class WebConfig implements WebMvcConfigurer
 {
     @Override

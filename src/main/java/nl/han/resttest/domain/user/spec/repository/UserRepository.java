@@ -1,4 +1,4 @@
-package nl.han.resttest.core.repositories;
+package nl.han.resttest.domain.user.spec.repository;
 
 import nl.han.resttest.database.model.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
