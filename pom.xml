@@ -23,7 +23,7 @@
         <!-- Test properties-->
         <junit.version>5.8.2</junit.version>
         <mockito.version>3.12.4</mockito.version>
-        <jersey.version>2.34</jersey.version>
+        <jersey.version>3.0.4</jersey.version>
     </properties>
 
     <packaging>war</packaging>
