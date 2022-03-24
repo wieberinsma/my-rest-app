@@ -27,7 +27,7 @@ public class LoginControllerTest
     private LoginService loginService;
 
     @Test
-    public void doLoginResponseTestSuccess()
+    public void doLogin_ResponseTest_Success()
     {
         var stubRequest = createRequest();
         var stubUserIn = createUserIn(stubRequest);
@@ -44,7 +44,7 @@ public class LoginControllerTest
     }
 
     @Test
-    public void doLoginResponseTestException()
+    public void doLogin_ResponseTest_Exception()
     {
         var stubRequest = createRequest();
         var stubUserIn = createUserIn(stubRequest);
