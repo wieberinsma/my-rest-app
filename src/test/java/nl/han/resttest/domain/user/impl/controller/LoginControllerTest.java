@@ -41,11 +41,6 @@ public class LoginControllerTest
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals("Wiebe Rinsma", response.getBody().getUser());
-
-        when(loginService.loginUser(stubUserIn)).thenThrow(StubSQLException.class);
-
-        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-        assertNull(response.getBody());
     }
 
     @Test
