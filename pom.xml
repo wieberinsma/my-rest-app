@@ -10,8 +10,8 @@
 
     <properties>
         <!-- App properties -->
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>12</maven.compiler.source>
+        <maven.compiler.target>12</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <javaee.version>8.0.1</javaee.version>
@@ -24,6 +24,7 @@
         <junit.version>5.8.2</junit.version>
         <mockito.version>3.12.4</mockito.version>
         <jersey.version>3.0.4</jersey.version>
+        <maven.plugin.version>3.0.0-M5</maven.plugin.version>
     </properties>
 
     <packaging>war</packaging>
@@ -83,9 +84,23 @@
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-common</artifactId>
-            <!-- Version 3.0.0+ does not work (ClassCastException on same class?) -->
             <version>${jersey.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven.plugin.version}</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>
