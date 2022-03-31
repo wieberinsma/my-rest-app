@@ -1,15 +1,12 @@
 package nl.han.resttest.database.config;
 
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.inject.Inject;
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 /**
@@ -17,7 +14,7 @@ import javax.sql.DataSource;
  * For @Transactional functionality on @Entity
  *
  * _JpaTransactionManager_
- * Only available implementation for JPA (javax.persistence) under Spring, supports JPA and direct JDBC datasource access.
+ * Only available implementation for JPA (jakarta.persistence) under Spring, supports JPA and direct JDBC datasource access.
  * Datasource must be same as entityManagerFactory (which is default), instead declared for visibility
  */
 @Configuration
@@ -28,22 +25,24 @@ public class HibernateConfig
     private DataSource dataSource;
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactory.setDataSource(dataSource);
-        entityManagerFactory.setPackagesToScan("nl.han.resttest.database.model");
-        entityManagerFactory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-        entityManagerFactory.setJpaDialect(new HibernateJpaDialect());
-        return entityManagerFactory;
+    public EntityManagerFactory entityManagerFactory() {
+        //TODO: Spring java-based configuration using DataSource instead of persistence.xml
+        return Persistence.createEntityManagerFactory("default");
+//        LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
+//        entityManagerFactory.setDataSource(dataSource);
+//        entityManagerFactory.setPackagesToScan("nl.han.resttest.database.model");
+//        entityManagerFactory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+//        entityManagerFactory.setJpaDialect(new HibernateJpaDialect());
+//        return entityManagerFactory;
     }
 
-    @Bean
-    public JpaTransactionManager transactionManager() {
-        EntityManagerFactory entityManagerFactory = entityManagerFactory().getObject();
-
-        JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setDataSource(dataSource);
-        transactionManager.setEntityManagerFactory(entityManagerFactory);
-        return transactionManager;
-    }
+//    @Bean
+//    public JpaTransactionManager transactionManager() {
+//        EntityManagerFactory entityManagerFactory = entityManagerFactory().getObject();
+//
+//        JpaTransactionManager transactionManager = new JpaTransactionManager();
+//        transactionManager.setDataSource(dataSource);
+//        transactionManager.setEntityManagerFactory(entityManagerFactory);
+//        return transactionManager;
+//    }
 }

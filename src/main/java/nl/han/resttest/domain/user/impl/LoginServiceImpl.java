@@ -7,7 +7,7 @@ import nl.han.resttest.domain.user.spec.service.LoginService;
 import nl.han.resttest.database.model.UserEntity;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.UUID;
 
 @Service

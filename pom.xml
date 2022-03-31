@@ -10,15 +10,17 @@
 
     <properties>
         <!-- App properties -->
-        <maven.compiler.source>12</maven.compiler.source>
-        <maven.compiler.target>12</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <javaee.version>8.0.1</javaee.version>
+        <jakarta-ee.version>9.1.0</jakarta-ee.version>
         <postgres.version>42.3.3</postgres.version>
         <hibernate.version>6.0.0.Alpha9</hibernate.version>
-        <spring.version>5.3.17</spring.version>
-        <spring.data.version>2.6.3</spring.data.version>
+        <hibernate-validator.version>7.0.4.Final</hibernate-validator.version>
+        <spring.version>6.0.0-M3</spring.version>
+        <spring.data.version>3.0.0-M3</spring.data.version>
+        <spring.lib.root>C:/Development/Projects/my-rest-app/src/main/resources/libs</spring.lib.root>
 
         <!-- Test properties-->
         <junit.version>5.8.2</junit.version>
@@ -32,9 +34,9 @@
     <dependencies>
         <!-- App dependencies -->
         <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>${javaee.version}</version>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <version>9.1.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -45,21 +47,79 @@
         </dependency>
         <dependency>
             <groupId>org.hibernate.orm</groupId>
-            <artifactId>hibernate-core</artifactId>
+            <artifactId>hibernate-core-jakarta</artifactId>
             <version>${hibernate.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator.version}</version>
+        </dependency>
+
+        <!-- Spring dependencies -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+            <scope>system</scope>
+            <systemPath>${spring.lib.root}/spring-core-6.0.0-M3.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+            <scope>system</scope>
+            <systemPath>${spring.lib.root}/spring-context-6.0.0-M3.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring.version}</version>
+            <scope>system</scope>
+            <systemPath>${spring.lib.root}/spring-beans-6.0.0-M3.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+            <scope>system</scope>
+            <systemPath>${spring.lib.root}/spring-jdbc-6.0.0-M3.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+            <scope>system</scope>
+            <systemPath>${spring.lib.root}/spring-tx-6.0.0-M3.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+            <scope>system</scope>
+            <systemPath>${spring.lib.root}/spring-web-6.0.0-M3.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
-            <scope>compile</scope>
+            <scope>system</scope>
+            <systemPath>${spring.lib.root}/spring-webmvc-6.0.0-M3.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
             <version>${spring.data.version}</version>
-            <scope>compile</scope>
+            <scope>system</scope>
+            <systemPath>${spring.lib.root}/spring-data-jpa-3.0.0-M3.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+            <version>${spring.data.version}</version>
+            <scope>system</scope>
+            <systemPath>${spring.lib.root}/spring-data-commons-3.0.0-M3.jar</systemPath>
         </dependency>
 
         <!-- Test dependencies -->

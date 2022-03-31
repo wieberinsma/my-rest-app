@@ -1,5 +1,6 @@
 package nl.han.resttest.domain.user.impl.controller;
 
+import jakarta.inject.Inject;
 import nl.han.resttest.api.model.LoginRequest;
 import nl.han.resttest.api.model.LoginResponse;
 import nl.han.resttest.domain.user.impl.model.User;
@@ -10,13 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.inject.Inject;
 import java.util.logging.Logger;
 
 @RestController
 public class LoginController
 {
-    private static final Logger logger = Logger.getLogger(LoginController.class.getName());
+    private static final Logger LOG = Logger.getLogger(LoginController.class.getName());
 
     @Inject
     private LoginService loginService;
@@ -34,7 +34,7 @@ public class LoginController
         }
         catch (Exception e)
         {
-            logger.severe("Failed to login user.");
+            LOG.info("Failed to login user.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
