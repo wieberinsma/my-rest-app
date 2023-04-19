@@ -13,12 +13,11 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 /**
- * _EnableTransactionMangement_
- * For @Transactional functionality on @Entity
- *
- * _JpaTransactionManager_
- * Only available implementation for JPA (javax.persistence) under Spring, supports JPA and direct JDBC datasource access.
- * Datasource must be same as entityManagerFactory (which is default), instead declared for visibility
+ * {@link EnableTransactionManagement} | For Transactional functionality of database Entities
+ * {@link javax.persistence.EntityManager} | To allow fine-grained control over entity management of the Hibernate (ORM)
+ * {@link JpaTransactionManager} | Required implementation for JPA (javax.persistence) under Spring, supports JPA and
+ * direct JDBC datasource access. Datasource must be same as entityManagerFactory (which is default). Here declared
+ * for visibility
  */
 @Configuration
 @EnableTransactionManagement
@@ -28,7 +27,8 @@ public class HibernateConfig
     private DataSource dataSource;
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory()
+    {
         LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactory.setDataSource(dataSource);
         entityManagerFactory.setPackagesToScan("nl.han.resttest.database.model");
@@ -38,7 +38,8 @@ public class HibernateConfig
     }
 
     @Bean
-    public JpaTransactionManager transactionManager() {
+    public JpaTransactionManager transactionManager()
+    {
         EntityManagerFactory entityManagerFactory = entityManagerFactory().getObject();
 
         JpaTransactionManager transactionManager = new JpaTransactionManager();

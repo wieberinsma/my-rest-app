@@ -8,8 +8,7 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @ComponentScan(basePackages = {"nl.han.resttest.domain"})
-//@Import({PersistenceConfig.class, WebConfig.class})
-@Import(WebConfig.class)
+@Import({PersistenceConfig.class, WebConfig.class})
 public class RootAppConfig
 {
 }

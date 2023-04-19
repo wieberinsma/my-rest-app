@@ -15,15 +15,17 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <javaee.version>8.0.1</javaee.version>
-        <postgres.version>42.3.3</postgres.version>
+        <postgres.version>42.5.4</postgres.version>
+
+        <!-- Upgrade to Jakarta -->
         <hibernate.version>6.0.0.Alpha9</hibernate.version>
-        <spring.version>5.3.18</spring.version>
-        <spring.data.version>2.6.3</spring.data.version>
+        <spring.version>5.3.27</spring.version>
+        <spring.data.version>2.7.11</spring.data.version>
 
         <!-- Test properties-->
-        <junit.version>5.8.2</junit.version>
-        <mockito.version>3.12.4</mockito.version>
-        <jersey.version>3.0.4</jersey.version>
+        <junit.version>5.9.2</junit.version>
+        <mockito.version>5.2.0</mockito.version>
+        <jersey.version>3.1.1</jersey.version>
         <maven.plugin.version>3.0.0-M5</maven.plugin.version>
     </properties>
 
@@ -90,6 +92,7 @@
     </dependencies>
 
     <build>
+        <!-- Overrides the context root of the deployed endpoints. ROOT defaults to empty root. -->
         <finalName>ROOT</finalName>
         <plugins>
             <plugin>

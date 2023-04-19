@@ -9,6 +9,10 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
+/**
+ * Configuration of the Datasource and its connectivity characteristics. This datasource is injected in HibernateConfig.
+ * Datasource is generically configured and specified in application.properties.
+ */
 @Configuration
 @PropertySource("classpath:application.properties")
 @Import({HibernateConfig.class, SpringDataConfig.class})

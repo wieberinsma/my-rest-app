@@ -5,6 +5,10 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.util.Properties;
 
+/**
+ * Intended to be used to initialize additional web-intended specifications / configurations before Spring-based
+ * configurations have occurred.
+ */
 @WebListener
 public class StartupConfigurer implements ServletContextListener
 {

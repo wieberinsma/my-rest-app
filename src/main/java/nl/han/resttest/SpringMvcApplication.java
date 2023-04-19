@@ -9,6 +9,11 @@ import org.springframework.web.servlet.DispatcherServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 
+/**
+ * {@link WebApplicationInitializer} | Bootstraps a Spring MVC web-application when Application-, ServletContext and
+ * Servlet are properly configured. Context is configured using pre-determined @Configuration classes in a
+ * hierarchical way (see @Import).
+ */
 public class SpringMvcApplication implements WebApplicationInitializer
 {
     @Override

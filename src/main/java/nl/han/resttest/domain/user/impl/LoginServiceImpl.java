@@ -13,26 +13,26 @@ import java.util.UUID;
 @Service
 public class LoginServiceImpl implements LoginService
 {
-//    @Inject
-//    private UserRepository userRepository;
+    @Inject
+    private UserRepository userRepository;
 
     @Override
     public User loginUser(User user)
     {
-//        User result;
-//
-//        UserEntity userEntity = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
-//        if (userEntity != null)
-//        {
-//            String token = UUID.randomUUID().toString();
-//            userEntity.setToken(token);
-//            userRepository.save(userEntity);
-//
-//            result = mapToUser(userEntity);
-//
-//            return result;
-//        }
-//
+        User result;
+
+        UserEntity userEntity = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+        if (userEntity != null)
+        {
+            String token = UUID.randomUUID().toString();
+            userEntity.setToken(token);
+            userRepository.save(userEntity);
+
+            result = mapToUser(userEntity);
+
+            return result;
+        }
+
         return null;
     }
 
