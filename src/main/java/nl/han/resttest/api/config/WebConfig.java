@@ -33,10 +33,11 @@ public class WebConfig implements WebMvcConfigurer
     public void addResourceHandlers(ResourceHandlerRegistry registry)
     {
         registry
-                .addResourceHandler("/**.html", "/**.js")
-                .addResourceLocations("classpath:/pages/", "classpath:/js/");
+                .addResourceHandler("/**.html", "/**.css", "/**.js", "/**.jsx")
+                .addResourceLocations("classpath:/public/html/", "classpath:/");
     }
 
+    // TODO: Default to Thymeleaf templating engine
     @Bean
     public ViewResolver internalResourceViewResolver()
     {
