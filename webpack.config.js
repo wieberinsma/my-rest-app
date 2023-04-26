@@ -10,6 +10,7 @@ console.log('Output path: ' + outputPath + '\n');
 module.exports = {
     target: 'web',
     devtool: 'source-map',
+    // watch: true,
     entry: entryPoint,
     output: {
         path: outputPath,

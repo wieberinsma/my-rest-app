@@ -111,11 +111,6 @@
                 <version>${maven.war.version}</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-<!--                    <webResources>-->
-<!--                        <resource>-->
-<!--                            <directory>dist</directory>-->
-<!--                        </resource>-->
-<!--                    </webResources>-->
                 </configuration>
             </plugin>
             <plugin>
