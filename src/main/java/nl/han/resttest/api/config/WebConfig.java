@@ -12,11 +12,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 /**
  * Configuration for the web (domain) resources and services.
- * <p>
- * Features:
- * - CORS mapping: self-explanatory
- * - Resource handler: to define all file patterns and locations available for the web context
- * - Resource view resolver: together with above handler allows for String-based resolving of HTML templates
  */
 @Configuration
 @EnableWebMvc
@@ -33,8 +28,8 @@ public class WebConfig implements WebMvcConfigurer
     public void addResourceHandlers(ResourceHandlerRegistry registry)
     {
         registry
-                .addResourceHandler("/**.html", "/**.css", "/**.js", "/**.jsx")
-                .addResourceLocations("classpath:/public/html/", "classpath:/");
+                .addResourceHandler("/**.html", "/**.css", "/**.js")
+                .addResourceLocations("classpath:/public/html/", "classpath:", "classpath:/static/built/");
     }
 
     // TODO: Default to Thymeleaf templating engine
