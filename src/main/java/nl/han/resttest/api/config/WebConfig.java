@@ -27,9 +27,9 @@ public class WebConfig implements WebMvcConfigurer
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry)
     {
-        registry
-                .addResourceHandler("/**.html", "/**.css", "/**.js")
-                .addResourceLocations("classpath:/public/html/", "classpath:", "classpath:/static/built/");
+        registry.addResourceHandler("/**.html", "/**.css", "/**.js")
+                .addResourceLocations("classpath:/public/html/", "classpath:", "classpath:/external/css/",
+                                      "classpath:/static/built/");
     }
 
     // TODO: Default to Thymeleaf templating engine

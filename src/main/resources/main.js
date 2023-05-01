@@ -1,13 +1,12 @@
+//Core libs
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+// Components
+import LoginForm from './components/login-form';
+
+// CSS
 import './App.css';
+import './external/css/bootstrap.min.css';
 
-class App extends React.Component {
-    render() {
-        return (
-            <div>Hello world!</div>
-        );
-    }
-}
-
-ReactDOM.render(<App/>, document.getElementById('app'));
+ReactDOM.render(<LoginForm/>, document.getElementById('login-form'));
