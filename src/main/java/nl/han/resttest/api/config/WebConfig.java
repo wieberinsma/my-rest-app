@@ -11,7 +11,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 /**
- * Configuration for the web (domain) resources and services.
+ * Configuration for the web (domain) resources and services. The resource handlers and locations are required for
+ * mapping any of the resources referenced in Java. CSS files are included to allow both referencing from HTML as well
+ * as bundling via Webpack.
  */
 @Configuration
 @EnableWebMvc
@@ -28,8 +30,7 @@ public class WebConfig implements WebMvcConfigurer
     public void addResourceHandlers(ResourceHandlerRegistry registry)
     {
         registry.addResourceHandler("/**.html", "/**.css", "/**.js")
-                .addResourceLocations("classpath:/public/html/", "classpath:", "classpath:/external/css/",
-                                      "classpath:/static/built/");
+                .addResourceLocations("classpath:/public/html/", "classpath:/static/css/", "classpath:/static/built/");
     }
 
     // TODO: Default to Thymeleaf templating engine
