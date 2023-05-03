@@ -59,7 +59,7 @@ public class LoginControllerTest
     private LoginRequest createRequest()
     {
         var result = new LoginRequest();
-        result.setUser("wiebe");
+        result.setUsername("wiebe");
         result.setPassword("123123");
         return result;
     }
@@ -67,7 +67,7 @@ public class LoginControllerTest
     private User createUserIn(LoginRequest stubRequest)
     {
         var result = new User();
-        result.setUsername(stubRequest.getUser());
+        result.setUsername(stubRequest.getUsername());
         result.setPassword(stubRequest.getPassword());
         return result;
     }

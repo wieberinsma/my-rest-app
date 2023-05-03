@@ -3,6 +3,7 @@ package nl.han.resttest.api.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
  */
 @Configuration
 @EnableWebMvc
+@Import(WebSecurityConfig.class)
 @ComponentScan(basePackages = {"nl.han.resttest.domain.user.impl.controller"})
 public class WebConfig implements WebMvcConfigurer
 {
@@ -29,11 +31,11 @@ public class WebConfig implements WebMvcConfigurer
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry)
     {
-        registry.addResourceHandler("/**.html", "/**.css", "/**.js")
+        registry.addResourceHandler("/**.html", "/**.css", "/**.js", "/**.map")
                 .addResourceLocations("classpath:/public/html/", "classpath:/static/css/", "classpath:/static/built/");
     }
 
-    // TODO: Default to Thymeleaf templating engine
+    // TODO: Default to Thymeleaf templating engine to load up root HTML params
     @Bean
     public ViewResolver internalResourceViewResolver()
     {

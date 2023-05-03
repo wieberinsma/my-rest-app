@@ -40,7 +40,7 @@ public class LoginServiceImpl implements LoginService
     public User mapToUser(LoginRequest loginRequest)
     {
         User result = new User();
-        result.setUsername(loginRequest.getUser());
+        result.setUsername(loginRequest.getUsername());
         result.setPassword(loginRequest.getPassword());
         return result;
     }

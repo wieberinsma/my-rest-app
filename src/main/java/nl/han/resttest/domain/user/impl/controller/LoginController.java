@@ -21,6 +21,7 @@ public class LoginController
     @Inject
     private LoginService loginService;
 
+    //TODO: Use Spring Security based login
     @PostMapping(value = "/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest)
     {

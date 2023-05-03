@@ -20,6 +20,9 @@
         <javaee.version>8.0.1</javaee.version>
         <jersey.version>3.1.1</jersey.version>
         <spring.version>5.3.27</spring.version>
+        <!-- TODO: Upgrade to SecurityFilterChain 5.8.3+ -->
+        <!-- https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter -->
+        <spring.security.version>5.4.0</spring.security.version>
 
         <!-- Database dependencies -->
         <postgres.version>42.5.4</postgres.version>
@@ -73,6 +76,19 @@
             <version>${spring.data.version}</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring.security.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring.security.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
 
         <!-- Test dependencies -->
         <dependency>

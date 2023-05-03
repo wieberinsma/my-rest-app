@@ -2,18 +2,18 @@ package nl.han.resttest.api.model;
 
 public class LoginRequest
 {
-    private String user;
+    private String username;
 
     private String password;
 
-    public String getUser()
+    public String getUsername()
     {
-        return user;
+        return username;
     }
 
-    public void setUser(String user)
+    public void setUsername(String username)
     {
-        this.user = user;
+        this.username = username;
     }
 
     public String getPassword()

@@ -22,7 +22,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: path.join(__dirname, '.'),
+                test: /\.js$/,
                 exclude: /(node_modules)/,
                 use: [
                     {
