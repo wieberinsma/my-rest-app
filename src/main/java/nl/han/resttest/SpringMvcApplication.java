@@ -4,6 +4,7 @@ import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.ServletContext;
@@ -23,6 +24,8 @@ public class SpringMvcApplication implements WebApplicationInitializer
         rootContext.register(RootAppConfig.class);
 
         servletContext.addListener(new ContextLoaderListener(rootContext));
+        servletContext.addFilter("springSecurityFilterChain", new DelegatingFilterProxy("springSecurityFilterChain"))
+                .addMappingForUrlPatterns(null, true, "/*");
 
         ServletRegistration.Dynamic appServlet =
                 servletContext.addServlet("dispatcher", new DispatcherServlet(new GenericWebApplicationContext()));

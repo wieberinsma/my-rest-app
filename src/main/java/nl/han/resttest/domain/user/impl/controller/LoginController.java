@@ -6,14 +6,14 @@ import nl.han.resttest.domain.user.impl.model.User;
 import nl.han.resttest.domain.user.spec.service.LoginService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import java.util.logging.Logger;
 
-@RestController
+@Controller
 public class LoginController
 {
     private static final Logger logger = Logger.getLogger(LoginController.class.getName());
