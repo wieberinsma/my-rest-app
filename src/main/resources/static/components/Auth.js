@@ -14,18 +14,18 @@ export default function Auth(props)
 
     function sendLoginRequest()
     {
-        const reqBody = {
-            username: username,
-            password: password
+        // Can also send as JSON request, but requires custom JSON processing filter in SecurityFilterChain
+        const payload = new URLSearchParams();
+        const formData = new FormData(document.getElementById("login-form"));
+
+        for (let pair of formData)
+        {
+            payload.append(pair[0], pair[1]);
         }
 
-        fetch("login", {
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            method: "POST",
-            body: JSON.stringify(reqBody)
+        fetch("/login", {
+            method: 'post',
+            body: payload
         })
             .then((response) =>
             {
@@ -51,7 +51,7 @@ export default function Auth(props)
     {
         return (
             <div className="Auth-form-container">
-                <form className="Auth-form" acceptCharset="utf-8">
+                <form id="login-form" className="Auth-form" acceptCharset="utf-8">
                     <div className="Auth-form-content">
                         <h3 className="Auth-form-title">Sign In</h3>
                         <div className="text-center">
@@ -69,7 +69,8 @@ export default function Auth(props)
                                    placeholder="Enter password" onChange={(event) => setPassword(event.target.value)}/>
                         </div>
                         <div className="d-grid gap-2 mt-3">
-                            <button id="submit" type="button" className="btn btn-primary" onClick={() => sendLoginRequest()}>
+                            <button id="submit" type="button" className="btn btn-primary"
+                                    onClick={() => sendLoginRequest()}>
                                 Login
                             </button>
                         </div>
