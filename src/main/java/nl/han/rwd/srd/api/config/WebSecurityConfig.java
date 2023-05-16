@@ -30,8 +30,6 @@ import java.util.Collections;
 /**
  * Global method security allows the use of {@link org.springframework.security.access.prepost.PreAuthorize} to control
  * user authorization per endpoint.
- *
- * If using 'anyRequest().authenticated()' this will result in incorrect MIME-type.
  */
 @Configuration
 @EnableWebSecurity
@@ -111,8 +109,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 //            .sessionFixation()
 //            .migrateSession()
 
-        //TODO: Logoutsucceshandler ipv logoutsuccesurl (net als login failure, succes)
-
+        //TODO: Fix using 'anyRequest().authenticated()' resulting in incorrect MIME-type.
         http
             .authenticationProvider(authProvider())
                 .formLogin()
@@ -135,7 +132,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
                 .authorizeRequests()
                     .antMatchers("/index")
                         .permitAll()
-                    .antMatchers("/dashboard")
+                    .antMatchers("/private")
                         .authenticated()
             .and()
                 .rememberMe()

@@ -8,7 +8,7 @@ import java.util.Set;
 
 public interface SecurityService
 {
-	String findLoggedInUsername();
+	String getAuthUsername();
 
 	void updateCurrentUserSession(HttpSession session);
 

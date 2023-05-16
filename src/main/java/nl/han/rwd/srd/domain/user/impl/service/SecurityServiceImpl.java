@@ -29,7 +29,7 @@ public class SecurityServiceImpl implements SecurityService
     private UserRepository userRepository;
 
     @Override
-    public String findLoggedInUsername()
+    public String getAuthUsername()
     {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails)

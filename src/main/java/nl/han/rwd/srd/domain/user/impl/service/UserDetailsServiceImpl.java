@@ -13,6 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 import java.util.HashSet;
 
+/**
+ * The Spring-default username/password authentication requires a custom-defined user details implementation to be able
+ * to provide your own authorisation (authorities of type String) and a Spring
+ * {@link org.springframework.security.core.userdetails.User} to persist authorities between requests.
+ */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService
 {
@@ -32,10 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService
             throw new BadCredentialsException("Invalid username or password.");
         }
 
-        String password = "123123";
-        System.out.println("password: " + passwordEncoder.encode(password));
-
-        // TODO: Fetch user roles
+        // TODO: Fetch user authorities
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
                 new HashSet<>());
     }

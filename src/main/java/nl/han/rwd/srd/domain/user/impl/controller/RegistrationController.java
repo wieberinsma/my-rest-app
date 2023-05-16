@@ -9,6 +9,7 @@ public class RegistrationController
 {
     private static final Logger logger = Logger.getLogger(RegistrationController.class.getName());
 
+    //TODO: Bcrypt password
 //    @PostMapping(value = "/register")
 //    public ResponseEntity<RegistrationResponse> login(@RequestBody RegistrationRequest registrationRequest)
 //    {

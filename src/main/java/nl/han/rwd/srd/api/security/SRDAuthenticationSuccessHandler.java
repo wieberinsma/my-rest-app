@@ -27,19 +27,18 @@ public class SRDAuthenticationSuccessHandler implements AuthenticationSuccessHan
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
             Authentication authentication) throws IOException
     {
-        handle(request, response, authentication);
+        handle(request, response);
     }
 
     /**
      * Initialize a new session with default authentication attributes. Cleans up previous log failures to prevent
      * authentication implementation interfering with old data.
      */
-    private void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-            throws IOException
+    private void handle(HttpServletRequest request, HttpServletResponse response) throws IOException
     {
         HttpSession session = request.getSession();
         session.setMaxInactiveInterval(60 * 30);
-        securityService.updateAuthenticationAttributes(session, authentication.getPrincipal().toString());
+        securityService.updateAuthenticationAttributes(session, securityService.getAuthUsername());
         securityService.clearAuthenticationAttributes(session,
                 Collections.singletonList(WebAttributes.AUTHENTICATION_EXCEPTION));
 

@@ -27,20 +27,27 @@ export default function Auth(props)
             method: 'post',
             body: payload
         })
-            .then((response) =>
+            .then(response =>
             {
                 if (response.status === 200)
                 {
-                    return Promise.all([response.json(), response.headers]);
-                } else
+                    return Promise.all([response.text(), response.headers]);
+                }
+                else
                 {
                     return Promise.reject("Invalid credentials.")
                 }
             })
-            .then(() =>
-            {
-                window.location.href = "dashboard";
-            })
+            .then(html =>
+                {
+                    let parser = new DOMParser();
+                    let doc = parser.parseFromString(html, 'text/html');
+                    if (doc.URL.includes('/index'))
+                    {
+                        window.location.href = "/private";
+                    }
+                }
+            )
             .catch(message =>
             {
                 alert(message);
@@ -82,50 +89,52 @@ export default function Auth(props)
             </div>
         );
     }
-
-    return (
-        <div className="Auth-form-container">
-            <form className="Auth-form" acceptCharset="utf-8">
-                <div className="Auth-form-content">
-                    <h3 className="Auth-form-title">Sign Up</h3>
-                    <div className="text-center">
-                        Already registered?{" "}
-                        <span className="link-primary" role="button" onClick={changeAuthMode}>Sign In</span>
+    else if (authMode === "signup")
+    {
+        return (
+            <div className="Auth-form-container">
+                <form className="Auth-form" acceptCharset="utf-8">
+                    <div className="Auth-form-content">
+                        <h3 className="Auth-form-title">Sign Up</h3>
+                        <div className="text-center">
+                            Already registered?{" "}
+                            <span className="link-primary" role="button" onClick={changeAuthMode}>Sign In</span>
+                        </div>
+                        <div className="form-group mt-3">
+                            <label>Full Name</label>
+                            <input
+                                type="email"
+                                className="form-control mt-1"
+                                placeholder="e.g Jane Doe"
+                            />
+                        </div>
+                        <div className="form-group mt-3">
+                            <label>Email address</label>
+                            <input
+                                type="email"
+                                className="form-control mt-1"
+                                placeholder="Email Address"
+                            />
+                        </div>
+                        <div className="form-group mt-3">
+                            <label>Password</label>
+                            <input
+                                type="password"
+                                className="form-control mt-1"
+                                placeholder="Password"
+                            />
+                        </div>
+                        <div className="d-grid gap-2 mt-3">
+                            <button type="submit" className="btn btn-primary">
+                                Submit
+                            </button>
+                        </div>
+                        <p className="text-center mt-2">
+                            Forgot <a href="../.#">password?</a>
+                        </p>
                     </div>
-                    <div className="form-group mt-3">
-                        <label>Full Name</label>
-                        <input
-                            type="email"
-                            className="form-control mt-1"
-                            placeholder="e.g Jane Doe"
-                        />
-                    </div>
-                    <div className="form-group mt-3">
-                        <label>Email address</label>
-                        <input
-                            type="email"
-                            className="form-control mt-1"
-                            placeholder="Email Address"
-                        />
-                    </div>
-                    <div className="form-group mt-3">
-                        <label>Password</label>
-                        <input
-                            type="password"
-                            className="form-control mt-1"
-                            placeholder="Password"
-                        />
-                    </div>
-                    <div className="d-grid gap-2 mt-3">
-                        <button type="submit" className="btn btn-primary">
-                            Submit
-                        </button>
-                    </div>
-                    <p className="text-center mt-2">
-                        Forgot <a href="../.#">password?</a>
-                    </p>
-                </div>
-            </form>
-        </div>
-    );
+                </form>
+            </div>
+        );
+    }
 }
