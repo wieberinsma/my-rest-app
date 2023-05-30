@@ -18,5 +18,4 @@ public class SRDAuthenticationDetails extends WebAuthenticationDetails
     {
         return username;
     }
-
 }

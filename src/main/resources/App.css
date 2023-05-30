@@ -37,6 +37,21 @@
     font-weight: 800;
 }
 
+.Private-container
+{
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.Private-title
+{
+    text-align: center;
+    margin-bottom: 1em;
+    font-size: 36px;
+    color: #000;
+}
+
 label
 {
     font-size: 14px;

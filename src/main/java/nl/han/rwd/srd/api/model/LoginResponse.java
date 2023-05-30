@@ -2,27 +2,63 @@ package nl.han.rwd.srd.api.model;
 
 public class LoginResponse
 {
-    private String token;
+    private String username;
 
-    private String user;
+    private String sessionToken;
 
-    public String getToken()
+    private String sessionId;
+
+    private String action;
+
+    private String redirectUrl;
+
+    public String getUsername()
     {
-        return token;
+        return username;
     }
 
-    public void setToken(String token)
+    public void setUsername(String username)
     {
-        this.token = token;
+        this.username = username;
     }
 
-    public String getUser()
+    public String getSessionToken()
     {
-        return user;
+        return sessionToken;
     }
 
-    public void setUser(String user)
+    public void setSessionToken(String sessionToken)
     {
-        this.user = user;
+        this.sessionToken = sessionToken;
+    }
+
+    public String getSessionId()
+    {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId)
+    {
+        this.sessionId = sessionId;
+    }
+
+    public String getAction()
+    {
+        return action;
+    }
+
+    public void setAction(String action)
+    {
+        this.action = action;
+    }
+
+    public String getRedirectUrl()
+    {
+        return redirectUrl;
+    }
+
+    public void setRedirectUrl(String redirectUrl)
+    {
+        this.redirectUrl = redirectUrl;
     }
 }

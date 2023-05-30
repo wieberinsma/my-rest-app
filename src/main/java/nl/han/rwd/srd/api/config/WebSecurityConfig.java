@@ -18,7 +18,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.session.web.http.HeaderHttpSessionIdResolver;
+import org.springframework.session.web.http.HttpSessionIdResolver;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -30,6 +33,9 @@ import java.util.Collections;
 /**
  * Global method security allows the use of {@link org.springframework.security.access.prepost.PreAuthorize} to control
  * user authorization per endpoint.
+ *
+ * Session management is restricted to one session per user, to prevent fiddling with user sessions for the purposes of
+ * this application being a demo.
  */
 @Configuration
 @EnableWebSecurity
@@ -71,17 +77,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
         return authProvider;
     }
 
-//    @Bean
-//    public SessionRegistry sessionRegistry()
-//    {
-//        return new SessionRegistryImpl();
-//    }
-
-//    @Bean
-//    public HttpSessionEventPublisher httpSessionEventPublisher()
-//    {
-//        return new HttpSessionEventPublisher();
-//    }
+    /**
+     * For cleaning up old sessions in the database using a default scheduler.
+     */
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher()
+    {
+        return new HttpSessionEventPublisher();
+    }
 
     @Bean
     public CorsConfigurationSource corsConfiguration()
@@ -94,6 +97,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
         return source;
     }
 
+    @Bean
+    public HttpSessionIdResolver httpSessionIdResolver() {
+        return HeaderHttpSessionIdResolver.xAuthToken();
+    }
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
@@ -102,13 +110,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
-//        .sessionManagement()
-//            .maximumSessions(1)
-//            .sessionRegistry(sessionRegistry())
-//            .and()
-//            .sessionFixation()
-//            .migrateSession()
-
         //TODO: Fix using 'anyRequest().authenticated()' resulting in incorrect MIME-type.
         http
             .authenticationProvider(authProvider())
@@ -135,9 +136,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
                     .antMatchers("/private")
                         .authenticated()
             .and()
-                .rememberMe()
-                .key("rememberMeSecretKey")
-                .tokenValiditySeconds(86400)
+                .sessionManagement()
+                    .maximumSessions(1)
+                    .and()
+                        .sessionFixation()
+                            .migrateSession()
             .and()
                 .cors()
                     .configurationSource(corsConfiguration())

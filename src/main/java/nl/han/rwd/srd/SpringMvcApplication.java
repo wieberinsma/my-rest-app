@@ -7,8 +7,10 @@ import org.springframework.web.context.support.GenericWebApplicationContext;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 
+import javax.servlet.DispatcherType;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
+import java.util.EnumSet;
 
 /**
  * {@link WebApplicationInitializer} | Bootstraps a Spring MVC web-application when Application-, ServletContext and
@@ -24,8 +26,10 @@ public class SpringMvcApplication implements WebApplicationInitializer
         rootContext.register(RootAppConfig.class);
 
         servletContext.addListener(new ContextLoaderListener(rootContext));
-        servletContext.addFilter("springSecurityFilterChain", new DelegatingFilterProxy("springSecurityFilterChain"))
+        servletContext.addFilter("springSecurityFilterChain", DelegatingFilterProxy.class)
                 .addMappingForUrlPatterns(null, true, "/*");
+        servletContext.addFilter("springSessionRepositoryFilter", DelegatingFilterProxy.class)
+                .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
 
         ServletRegistration.Dynamic appServlet =
                 servletContext.addServlet("dispatcher", new DispatcherServlet(new GenericWebApplicationContext()));

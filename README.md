@@ -31,8 +31,6 @@ The featured elements of this Demo project include at least:
     * Database-managed sessions
 * Hibernate / JPA
   * Entity-managed domain-binding of business logic and database
-* Thymeleaf
-  * Pre-configured (initial) templating for Spring configuration purposes
 * JUnit
   * Testing (Unit, Integration) including Mocking
 * Logback
@@ -44,7 +42,27 @@ The featured elements of this Demo project include at least:
 ## About this repository
 
 This repository is provided as a largely independent Spring Web App, but assumes at least a database connection. An
-example `application.properties` file is included in the project that uses PostgreSQL. In addition, to succesfully build
+example `application.properties` and `database.properties` file is included in the project that uses PostgreSQL. To be
+able to use Spring Session, the required tables need to be created, using the following SQL:
+
+```sql
+CREATE TABLE IF NOT EXISTS SPRING_SESSION (
+  PRIMARY_ID CHAR(36) NOT NULL,
+  SESSION_ID CHAR(36) NOT NULL,
+  CREATION_TIME BIGINT NOT NULL,
+  LAST_ACCESS_TIME BIGINT NOT NULL,
+  MAX_INACTIVE_INTERVAL INT NOT NULL,
+  EXPIRY_TIME BIGINT NOT NULL,
+  PRINCIPAL_NAME VARCHAR(100),
+  CONSTRAINT SPRING_SESSION_PK PRIMARY KEY (PRIMARY_ID)
+);
+
+CREATE INDEX SPRING_SESSION_IX1 ON SPRING_SESSION (SESSION_ID);
+CREATE INDEX SPRING_SESSION_IX2 ON SPRING_SESSION (EXPIRY_TIME);
+CREATE INDEX SPRING_SESSION_IX3 ON SPRING_SESSION (PRINCIPAL_NAME);
+```
+
+In addition, to succesfully build
 the project, the following local dependencies are required:
 * Java 12
 * TomEE Webprofile 8/9
@@ -62,7 +80,7 @@ environment and a deployment configuration (e.g. docker-compose, Jenkins).
 
 To ease adoption and expansion of the sourcecode, the entire Webapp is fully Java-configured and does not require any
 external configuration files, instead of traditional configuration and requirements (e.g. web.xml, beans.xml, 
-persistence.xml). 
+persistence.xml). One issue with this is that 
 
 For additional finetuning of the authentication and authorisation flow, a `PrivateController` is provided for testing 
 purposes on `/private`. It assumes a Spring authority of `PRIVATE` being non-existent.

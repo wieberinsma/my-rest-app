@@ -4,6 +4,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.session.FlushMode;
+import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession;
+import org.springframework.session.web.http.CookieSerializer;
+import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -19,6 +23,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @EnableWebMvc
 @Import(WebSecurityConfig.class)
+@EnableJdbcHttpSession(maxInactiveIntervalInSeconds = 3600, flushMode = FlushMode.IMMEDIATE)
 @ComponentScan(basePackages = {"nl.han.rwd.srd.domain.user.impl.controller"})
 public class WebConfig implements WebMvcConfigurer
 {
@@ -35,12 +40,30 @@ public class WebConfig implements WebMvcConfigurer
                 .addResourceLocations("classpath:/public/html/", "classpath:/static/css/", "classpath:/static/built/");
     }
 
-    // TODO: Default to Thymeleaf templating engine to load up root HTML params
     @Bean
     public ViewResolver internalResourceViewResolver()
     {
         InternalResourceViewResolver bean = new InternalResourceViewResolver();
         bean.setSuffix(".html");
         return bean;
+    }
+
+    /**
+     * Required to work around an issue with Spring's Session cookie config not allowed to be retrieved from servlet
+     * context in Tomcat. See
+     * {@link org.springframework.session.config.annotation.web.http.SpringHttpSessionConfiguration}.
+     */
+    @Bean
+    public CookieSerializer cookieSerializer()
+    {
+        DefaultCookieSerializer cs = new DefaultCookieSerializer();
+
+        cs.setCookieName("JSESSIONID");
+        cs.setDomainName("");
+        cs.setCookiePath("/");
+        cs.setUseHttpOnlyCookie(true);
+        cs.setSameSite("None");
+
+        return cs;
     }
 }

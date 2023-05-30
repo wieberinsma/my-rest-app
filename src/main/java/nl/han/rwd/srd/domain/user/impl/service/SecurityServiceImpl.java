@@ -33,7 +33,9 @@ public class SecurityServiceImpl implements SecurityService
     {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails)
+        {
             return ((UserDetails) authentication.getPrincipal()).getUsername();
+        }
 
         return null;
     }
@@ -54,7 +56,8 @@ public class SecurityServiceImpl implements SecurityService
         }
     }
 
-    private AuthUser mapToAuthUser(UserEntity userEntity)
+    @Override
+    public AuthUser mapToAuthUser(UserEntity userEntity)
     {
         AuthUser authUser = new AuthUser();
         authUser.setUsername(userEntity.getUsername());
@@ -74,14 +77,16 @@ public class SecurityServiceImpl implements SecurityService
     public void clearAuthenticationAttributes(HttpSession session, List<String> attributes)
     {
         if (session == null)
+        {
             return;
+        }
 
         attributes.forEach(session::removeAttribute);
     }
 
     /**
-     * Modifies the current authentication in an immutable way by replacing it in its entirety in the
-     * {@link SecurityContextHolder}.
+     * Suggested implementation of modification of user authorisation. Modifies the current authentication in an
+     * immutable way by replacing it in its entirety in the {@link SecurityContextHolder}.
      */
     @Override
     public void updateCurrentUserSession(@NonNull HttpSession session)
@@ -107,7 +112,7 @@ public class SecurityServiceImpl implements SecurityService
         return getRoleAuthorities(getDefaultUserRoles());
     }
 
-    //TODO: Define authorities from role-permission matrix table
+    //TODO: Define authorities from R(1):P(1-n) role-permission matrix table
     private Set<String> getRoleAuthorities(Set<String> roles)
     {
         return roles.stream()

@@ -1,5 +1,6 @@
 package nl.han.rwd.srd.domain.user.spec.service;
 
+import nl.han.rwd.srd.database.model.UserEntity;
 import nl.han.rwd.srd.domain.user.AuthUser;
 
 import javax.servlet.http.HttpSession;
@@ -15,6 +16,8 @@ public interface SecurityService
 	Set<String> getUserAuthorities(AuthUser authUser);
 
 	void updateAuthenticationAttributes(HttpSession session, String username);
+
+	AuthUser mapToAuthUser(UserEntity userEntity);
 
 	void clearAuthenticationAttributes(HttpSession request, List<String> attributes);
 }

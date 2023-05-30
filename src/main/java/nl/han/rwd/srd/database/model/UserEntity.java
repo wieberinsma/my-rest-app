@@ -24,9 +24,6 @@ public class UserEntity
     @Column(nullable = false, name = "last_name")
     private String lastName;
 
-    @Column(nullable = false)
-    private String token;
-
     public Long getId()
     {
         return id;
@@ -75,15 +72,5 @@ public class UserEntity
     public void setLastName(String lastName)
     {
         this.lastName = lastName;
-    }
-
-    public String getToken()
-    {
-        return token;
-    }
-
-    public void setToken(String token)
-    {
-        this.token = token;
     }
 }

@@ -1,5 +1,9 @@
+// Core libs
 import React, {useState} from "react";
 import "static/external/css/bootstrap.min.css";
+
+//Components
+import Redirect from "./Redirect";
 
 export default function Auth(props)
 {
@@ -14,7 +18,6 @@ export default function Auth(props)
 
     function sendLoginRequest()
     {
-        // Can also send as JSON request, but requires custom JSON processing filter in SecurityFilterChain
         const payload = new URLSearchParams();
         const formData = new FormData(document.getElementById("login-form"));
 
@@ -31,20 +34,19 @@ export default function Auth(props)
             {
                 if (response.status === 200)
                 {
-                    return Promise.all([response.text(), response.headers]);
+                    return Promise.all([response.json(), response.headers]);
                 }
                 else
                 {
                     return Promise.reject("Invalid credentials.")
                 }
             })
-            .then(html =>
+            .then(response =>
                 {
-                    let parser = new DOMParser();
-                    let doc = parser.parseFromString(html, 'text/html');
-                    if (doc.URL.includes('/index'))
+                    let json = response[0];
+                    if (json.action === 'LOGIN')
                     {
-                        window.location.href = "/private";
+                        Redirect(json);
                     }
                 }
             )
