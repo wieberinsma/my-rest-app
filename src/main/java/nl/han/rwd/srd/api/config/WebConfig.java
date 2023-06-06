@@ -8,6 +8,7 @@ import org.springframework.session.FlushMode;
 import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession;
 import org.springframework.session.web.http.CookieSerializer;
 import org.springframework.session.web.http.DefaultCookieSerializer;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -22,7 +23,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @EnableWebMvc
 @Import(WebSecurityConfig.class)
 @EnableJdbcHttpSession(maxInactiveIntervalInSeconds = 3600, flushMode = FlushMode.IMMEDIATE)
-@ComponentScan(basePackages = {"nl.han.rwd.srd.domain.user.impl.controller"})
+@ComponentScan(basePackages = {"nl.han.rwd.srd.api.exception", "nl.han.rwd.srd.domain.user.impl.controller"})
 public class WebConfig implements WebMvcConfigurer
 {
     @Override
@@ -68,5 +69,13 @@ public class WebConfig implements WebMvcConfigurer
         cs.setSameSite("None");
 
         return cs;
+    }
+
+    /**
+     * Required for Hibernate validation exception response mapping.
+     */
+    @Bean
+    public LocalValidatorFactoryBean validator() {
+        return new LocalValidatorFactoryBean();
     }
 }

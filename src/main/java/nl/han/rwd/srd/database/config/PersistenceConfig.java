@@ -13,9 +13,7 @@ import javax.sql.DataSource;
 /**
  * Configuration of the Datasource and its connectivity characteristics. This datasource is injected in HibernateConfig.
  * Datasource is generically configured and specified in application.properties. This persistance configuration is
- * strong coupled to use of JDBC throught Spring Session, although a choice of drivers is allowed. Session timeout is
- * set to 1 hour and session tables are automatically managed by Spring. Only in Spring Boot are they also automatically
- * created.
+ * strong coupled to use of JDBC through Spring Session, although a choice of drivers is allowed.
  */
 @Configuration
 @PropertySource("classpath:application.properties")

@@ -1,7 +1,6 @@
 # TODO:
-- RegistrationController
-- RegistrationController tests (unit + integration)
-- Registration Hibernate Bean validation
+- Exception handling in SRDExceptionMapper
+- Bindingresuilt validation messages
 
 # Spring React Demo (SRD)
 
@@ -24,6 +23,7 @@ The featured elements of this Demo project include at least:
 * Spring Core framework
   * Spring MVC
     * REST Controllers, HttpServlet request/response interaction 
+    * Centralised exception handling for REST controllers
   * Spring Data
     * Pre-configured implementation for JPA repositories, functional query system
   * Spring Security
@@ -32,8 +32,7 @@ The featured elements of this Demo project include at least:
     * Database-managed sessions
 * Hibernate / JPA
   * Entity-managed domain-binding of business logic and database
-* JUnit
-  * Testing (Unit, Integration) including Mocking
+  * Custom username bean validation (JSR 380)
 * Logback
   * Logging of Request, Security and Application relevant errors and warnings (console + file)
 * Maven
@@ -88,7 +87,13 @@ front-end in React to ease demoing. Some downsides are limited interplay between
  and Spring's MVC-based endpoint configuration. These features can often be implemented, but generally not in a `Hello 
 World` prototype scenario.
 
-Hot reloading of the front-end is currently not supported due to Webpack's inclusion in the same project.
+####_Not included_
+- Hot reloading of the front-end, due to Webpack's inclusion in the same project
+- Unit/integration testing; JUnit is recommended
+- Jakarta EE, Java 17+ nor Spring 6 (updated Spring Security configuration)
+- i18n
+
+New versions of this project are expected to include some or all of the above.
 
 ### Security
 
@@ -97,12 +102,17 @@ this means the login endpoint is auto-generated using form-login, sessions are m
 custom filters are implemented once-per-request as part of the `SecurityFilterChain`, which in turn are to be explicitly 
 declared as servlet (i.e. Tomcat) filters (see `SpringMvcApplication`).
 
-The demo'able login process is as follows. A POST call to the auto-generated login endpoint with valid credentials will
-result in a front-end 'redirect' (i.e. React conditionals) to a permission-protected serverside endpoint `/private`. In 
-this demo, permissions are provided by default instead of using a role-permission table, resulting in a successful 
-render of the HTML that is represented for `/private` using React.
+The demo'able login process is as follows. Create a new user using the registration form. After that, use the login form
+to make a POST call to the auto-generated server-side login endpoint with valid credentials. This will result in a 
+front-end 'redirect' (i.e. React conditionals) to a permission-protected serverside endpoint `/private`. In this demo, 
+permissions are provided by default instead of using a role-permission table, resulting in a successful render of the 
+HTML that is represented for `/private` using React. It is advised to implement an actual rigorous permission system 
+going forward.
 
-### Buid process
+The current implementation also provide a stepping stone for other authentication implementation such as OAuth 2.0,
+requiring minimal changes to the `WebSecurityConfig` file.
+
+### Build process
 The basic process of building the Web App is to delegate the build process to Maven. For command line usage this is 
 straightforward through use of its binaries. For others, such as the IntelliJ IDE, it requires you to denote this 
 delegation manually (`Settings > Build, Execution, Deployment > Build Tools > Maven > Runner > Delegate IDE build/run actions to Maven`).

@@ -5,8 +5,11 @@ import "static/external/css/bootstrap.min.css";
 export default function Auth()
 {
     let [authMode, setAuthMode] = useState("signin");
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastname, setLastname] = useState("");
     const [url, setUrl] = useState("");
 
     const changeAuthMode = () =>
@@ -14,6 +17,9 @@ export default function Auth()
         setAuthMode(authMode === "signin" ? "signup" : "signin");
     }
 
+    /**
+     * Use of form data object due to auto-generated form-login process of Spring Security, instead of JSON.stringify().
+     */
     function sendLoginRequest()
     {
         const payload = new URLSearchParams();
@@ -30,12 +36,13 @@ export default function Auth()
         })
             .then(response =>
             {
-                if (response.status === 200)
+                if (response.ok)
                 {
                     return Promise.all([response.json(), response.headers]);
                 }
                 else
                 {
+                    console.log(response.text());
                     return Promise.reject("Invalid credentials.")
                 }
             })
@@ -46,7 +53,7 @@ export default function Auth()
                     setUsername(json.username);
                     if (json.action === 'LOGIN')
                     {
-                        redirect(json);
+                        doRedirect(json);
                     }
                 }
             )
@@ -58,10 +65,38 @@ export default function Auth()
 
     function sendRegistrationRequest()
     {
-        return undefined;
+        fetch("/register", {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'firstName': firstName,
+                'lastName': lastname,
+                'username': username,
+                'password': password
+            })
+        })
+            .then(response =>
+            {
+                if (response.ok)
+                {
+                    setAuthMode("signin");
+                    return Promise.resolve();
+                }
+                else
+                {
+                    console.log(response.text());
+                    return Promise.reject("Invalid registration provided.")
+                }
+            })
+            .catch(message =>
+            {
+                alert(message);
+            });
     }
 
-    function redirect(json)
+    function doRedirect(json)
     {
         let url = json.redirectUrl;
 
@@ -97,15 +132,11 @@ export default function Auth()
                             </div>
                             <div className="form-group mt-3">
                                 <label htmlFor="username">Username</label>
-                                <input type="email" name="username" className="form-control mt-1" value={username}
-                                       placeholder="Enter username"
-                                       onChange={(event) => setUsername(event.target.value)}/>
+                                <input type="email" name="username" className="form-control mt-1" placeholder="Enter username"/>
                             </div>
                             <div className="form-group mt-3">
                                 <label htmlFor="password">Password</label>
-                                <input type="password" name="password" className="form-control mt-1" value={password}
-                                       placeholder="Enter password"
-                                       onChange={(event) => setPassword(event.target.value)}/>
+                                <input type="password" name="password" className="form-control mt-1" placeholder="Enter password"/>
                             </div>
                             <div className="d-grid gap-2 mt-3">
                                 <button id="submit" type="button" className="btn btn-primary"
@@ -113,9 +144,6 @@ export default function Auth()
                                     Login
                                 </button>
                             </div>
-                            <p className="text-center mt-2">
-                                Forgot <a href="../.#">password</a>?
-                            </p>
                         </div>
                     </form>
                 </div>
@@ -133,38 +161,38 @@ export default function Auth()
                                 <span className="link-primary" role="button" onClick={changeAuthMode}>Sign In</span>
                             </div>
                             <div className="form-group mt-3">
-                                <label>Full Name</label>
-                                <input
-                                    type="email"
-                                    className="form-control mt-1"
-                                    placeholder="e.g Jane Doe"
+                                <label htmlFor="firstName">First name</label>
+                                <input name="firstName" className="form-control mt-1" value={firstName}
+                                       placeholder="First name"
+                                       onChange={(event) => setFirstName(event.target.value)}
                                 />
                             </div>
                             <div className="form-group mt-3">
-                                <label>Email address</label>
-                                <input
-                                    type="email"
-                                    className="form-control mt-1"
-                                    placeholder="Email Address"
+                                <label htmlFor="lastname">Lastname</label>
+                                <input name="lastname" className="form-control mt-1" value={lastname}
+                                       placeholder="Lastname"
+                                       onChange={(event) => setLastname(event.target.value)}
                                 />
                             </div>
                             <div className="form-group mt-3">
-                                <label>Password</label>
-                                <input
-                                    type="password"
-                                    className="form-control mt-1"
-                                    placeholder="Password"
+                                <label htmlFor="username">Username</label>
+                                <input name="username" className="form-control mt-1" value={username}
+                                       placeholder="Username"
+                                       onChange={(event) => setUsername(event.target.value)}/>
+                            </div>
+                            <div className="form-group mt-3">
+                                <label htmlFor="password">Password</label>
+                                <input name="password" type="password" className="form-control mt-1" value={password}
+                                       placeholder="Password"
+                                       onChange={(event) => setPassword(event.target.value)}
                                 />
                             </div>
                             <div className="d-grid gap-2 mt-3">
                                 <button id="submit" type="button" className="btn btn-primary"
                                         onClick={() => sendRegistrationRequest()}>
-                                    Login
+                                    Register
                                 </button>
                             </div>
-                            <p className="text-center mt-2">
-                                Forgot <a href="../.#">password?</a>
-                            </p>
                         </div>
                     </form>
                 </div>
