@@ -1,8 +1,9 @@
-# TODO
-* Spring Configuration file descriptions
-* Spring security configuration
+# TODO:
+- RegistrationController
+- RegistrationController tests (unit + integration)
+- Registration Hibernate Bean validation
 
-# Spring-MVC-React-Demo
+# Spring React Demo (SRD)
 
 This Demo project was designed for the 'Hogeschool Arnhem en Nijmegen' (HAN) school in The Netherlands, Arnhem to teach
 students about the inner workings of some of the most-used tech in Web App development. The intent is therefore to 
@@ -62,6 +63,8 @@ CREATE INDEX SPRING_SESSION_IX2 ON SPRING_SESSION (EXPIRY_TIME);
 CREATE INDEX SPRING_SESSION_IX3 ON SPRING_SESSION (PRINCIPAL_NAME);
 ```
 
+The required `user_account` table should be clear from the `UserEntity` class.
+
 In addition, to succesfully build
 the project, the following local dependencies are required:
 * Java 12
@@ -75,15 +78,29 @@ number of different architectures and contexts.
 ### Expectation management
 This webapp is not intended nor configured for remote deployment nor for a multi-environment setup (e.g. using Spring
 Profiles). It is intended to be demo'ed on localhost as a feature presentation of a lot of the elements of a Spring 
-Webapp. A multi-environment deployment version would require at least a specific `application.properties` files for each 
+Webapp. A multi-environment deployment version would require at least a specific `application.properties` file for each 
 environment and a deployment configuration (e.g. docker-compose, Jenkins).
 
 To ease adoption and expansion of the sourcecode, the entire Webapp is fully Java-configured and does not require any
 external configuration files, instead of traditional configuration and requirements (e.g. web.xml, beans.xml, 
-persistence.xml). One issue with this is that 
+persistence.xml). This should allow for better debugging capabilities. The project consists of a statically served 
+front-end in React to ease demoing. Some downsides are limited interplay between React components (e.g. routing)
+ and Spring's MVC-based endpoint configuration. These features can often be implemented, but generally not in a `Hello 
+World` prototype scenario.
 
-For additional finetuning of the authentication and authorisation flow, a `PrivateController` is provided for testing 
-purposes on `/private`. It assumes a Spring authority of `PRIVATE` being non-existent.
+Hot reloading of the front-end is currently not supported due to Webpack's inclusion in the same project.
+
+### Security
+
+Security is, as intended, to be managed fully server-side and fully under the control of Spring Security. Concretely, 
+this means the login endpoint is auto-generated using form-login, sessions are managed automatically (JDBC-driven) and 
+custom filters are implemented once-per-request as part of the `SecurityFilterChain`, which in turn are to be explicitly 
+declared as servlet (i.e. Tomcat) filters (see `SpringMvcApplication`).
+
+The demo'able login process is as follows. A POST call to the auto-generated login endpoint with valid credentials will
+result in a front-end 'redirect' (i.e. React conditionals) to a permission-protected serverside endpoint `/private`. In 
+this demo, permissions are provided by default instead of using a role-permission table, resulting in a successful 
+render of the HTML that is represented for `/private` using React.
 
 ### Buid process
 The basic process of building the Web App is to delegate the build process to Maven. For command line usage this is 

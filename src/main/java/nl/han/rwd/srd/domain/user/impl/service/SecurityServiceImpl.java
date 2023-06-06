@@ -40,6 +40,11 @@ public class SecurityServiceImpl implements SecurityService
         return null;
     }
 
+    /**
+     * Custom session attributes are implemented as a best-practice, but do not include the actual user roles and/or
+     * permissions as these are safeguarded in Spring's security management. If more attributes are required in a single
+     * user's session, a custom session mapper is required to be able to store the authorisation attribute as an object.
+     */
     @Override
     public void updateAuthenticationAttributes(HttpSession session, String username)
     {
@@ -51,8 +56,7 @@ public class SecurityServiceImpl implements SecurityService
         UserEntity userEntity = userRepository.findByUsername(username);
         if (userEntity != null)
         {
-            AuthUser authUser = mapToAuthUser(userEntity);
-            session.setAttribute("authUser", authUser);
+            session.setAttribute("authUser", username);
         }
     }
 
@@ -61,7 +65,7 @@ public class SecurityServiceImpl implements SecurityService
     {
         AuthUser authUser = new AuthUser();
         authUser.setUsername(userEntity.getUsername());
-        authUser.setRoles(getDefaultUserRoles());
+        authUser.setRoles(new HashSet<>());
         return authUser;
     }
 
@@ -106,13 +110,18 @@ public class SecurityServiceImpl implements SecurityService
         }
     }
 
+    /**
+     * Currently, no implementation is made with regards to roles and permissions, but the latter are required by Spring
+     * as {@link GrantedAuthority}. Therefore, only a default set of roles is defined. Ideally, one should define
+     * authorities from an R(1):P(1-n) role-permission matrix table.
+     */
     @Override
     public Set<String> getUserAuthorities(AuthUser authUser)
     {
-        return getRoleAuthorities(getDefaultUserRoles());
+        Set<String> roles = authUser.getRoles().isEmpty() ? getDefaultUserRoles() : authUser.getRoles();
+        return getRoleAuthorities(roles);
     }
 
-    //TODO: Define authorities from R(1):P(1-n) role-permission matrix table
     private Set<String> getRoleAuthorities(Set<String> roles)
     {
         return roles.stream()

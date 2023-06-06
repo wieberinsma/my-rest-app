@@ -41,6 +41,8 @@ public class SRDAuthenticationSuccessHandler implements AuthenticationSuccessHan
     /**
      * Initialize a new session with default authentication attributes. Cleans up previous log failures to prevent
      * authentication implementation interfering with old data.
+     *
+     * Response is mapped to a JSON String for (de)serialisation compatibility in the fetch API.
      */
     private void handle(HttpServletRequest request, HttpServletResponse response) throws IOException
     {
@@ -56,7 +58,7 @@ public class SRDAuthenticationSuccessHandler implements AuthenticationSuccessHan
         if (!response.isCommitted() && StringUtils.hasLength(sessionId))
         {
             response.setStatus(HttpServletResponse.SC_OK);
-            String jsonResponse = parseLoginResponse(authUser, session);
+            String jsonResponse = parseLoginResponse(authUser);
             response.getWriter().write(jsonResponse);
         }
         else
@@ -66,10 +68,10 @@ public class SRDAuthenticationSuccessHandler implements AuthenticationSuccessHan
         }
     }
 
-    private String parseLoginResponse(String authUser, HttpSession session)
+    private String parseLoginResponse(String authUser)
     {
         String jsonResponse = "";
-        LoginResponse loginResponse = mapToLoginResponse(authUser, session);
+        LoginResponse loginResponse = mapToLoginResponse(authUser);
 
         final ObjectMapper jacksonMapper = new ObjectMapper();
         try
@@ -84,15 +86,13 @@ public class SRDAuthenticationSuccessHandler implements AuthenticationSuccessHan
         return jsonResponse;
     }
 
-    private LoginResponse mapToLoginResponse(String authUser, HttpSession session)
+    /**
+     * Session token and ID are returned in response headers and should be accessed only from there.
+     */
+    private LoginResponse mapToLoginResponse(String authUser)
     {
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setUsername(authUser);
-
-        //TODO: session token using Spring session object
-//        loginResponse.setSessionToken((String) session.getAttribute("token"));
-
-        loginResponse.setSessionId(session.getId());
         loginResponse.setAction("LOGIN");
         loginResponse.setRedirectUrl("/private");
         return loginResponse;

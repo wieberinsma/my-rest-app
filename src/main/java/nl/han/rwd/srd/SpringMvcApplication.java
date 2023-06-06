@@ -16,6 +16,9 @@ import java.util.EnumSet;
  * {@link WebApplicationInitializer} | Bootstraps a Spring MVC web-application when Application-, ServletContext and
  * Servlet are properly configured. Context is configured using pre-determined @Configuration classes in a
  * hierarchical way (see @Import).
+ *
+ * Both SpringSecurityFilterChain and it's managed Spring filters are needed as Servlet filters. Note that the usage of
+ * the term 'filter' is ambigiuous here.
  */
 public class SpringMvcApplication implements WebApplicationInitializer
 {

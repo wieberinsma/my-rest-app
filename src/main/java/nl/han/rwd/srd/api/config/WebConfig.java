@@ -16,9 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 /**
- * Configuration for the web (domain) resources and services. The resource handlers and locations are required for
- * mapping any of the resources referenced in Java. CSS files are included to allow both referencing from HTML as well
- * as bundling via Webpack.
+ * Configuration for the web (domain) resources and services.
  */
 @Configuration
 @EnableWebMvc
@@ -33,6 +31,11 @@ public class WebConfig implements WebMvcConfigurer
         registry.addMapping("/**");
     }
 
+    /**
+     * Resource handlers and locations are required for mapping any of the resources referenced in Java. To be able to
+     * directly reference (i.e. from source) files from a certain type, they must be included here. For that reason CSS
+     * files are included to allow both referencing from HTML and bundling via Webpack.
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry)
     {

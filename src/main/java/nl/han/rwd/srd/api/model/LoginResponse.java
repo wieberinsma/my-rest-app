@@ -4,10 +4,6 @@ public class LoginResponse
 {
     private String username;
 
-    private String sessionToken;
-
-    private String sessionId;
-
     private String action;
 
     private String redirectUrl;
@@ -20,26 +16,6 @@ public class LoginResponse
     public void setUsername(String username)
     {
         this.username = username;
-    }
-
-    public String getSessionToken()
-    {
-        return sessionToken;
-    }
-
-    public void setSessionToken(String sessionToken)
-    {
-        this.sessionToken = sessionToken;
-    }
-
-    public String getSessionId()
-    {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId)
-    {
-        this.sessionId = sessionId;
     }
 
     public String getAction()

@@ -59,18 +59,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     private SRDAuthenticationFailureHandler failureHandler;
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder()
+    {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
+    public AuthenticationManager authenticationManagerBean() throws Exception
+    {
         return super.authenticationManagerBean();
     }
 
     @Bean
-    public DaoAuthenticationProvider authProvider() {
+    public DaoAuthenticationProvider authProvider()
+    {
         SRDAuthenticationProvider authProvider = new SRDAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
@@ -86,6 +89,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
         return new HttpSessionEventPublisher();
     }
 
+    /**
+     * Default configuration example. Not strictly required here as view is served statically from the same URL.
+     */
     @Bean
     public CorsConfigurationSource corsConfiguration()
     {
@@ -97,20 +103,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
         return source;
     }
 
+    /**
+     * Stores session ID in X-AUTH-TOKEN header instead of in session cookie.
+     */
     @Bean
-    public HttpSessionIdResolver httpSessionIdResolver() {
+    public HttpSessionIdResolver httpSessionIdResolver()
+    {
         return HeaderHttpSessionIdResolver.xAuthToken();
     }
 
+    /**
+     * Required to allow username / password authentication where a password is stored encrypted, see
+     * {@link nl.han.rwd.srd.domain.user.impl.controller.RegistrationController}.
+     */
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception
+    {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
+    /**
+     * Note: Using 'anyRequest().authenticated()' (as per default usage) results in incorrect MIME-type. Therefore, the
+     * `/private` endpoint is explicitly defined.
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
-        //TODO: Fix using 'anyRequest().authenticated()' resulting in incorrect MIME-type.
+
         http
             .authenticationProvider(authProvider())
                 .formLogin()
