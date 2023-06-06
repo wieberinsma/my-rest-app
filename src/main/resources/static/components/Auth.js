@@ -42,8 +42,7 @@ export default function Auth()
                 }
                 else
                 {
-                    console.log(response.text());
-                    return Promise.reject("Invalid credentials.")
+                    return Promise.reject("Invalid credentials: " + + response.text())
                 }
             })
             .then(response =>
@@ -86,8 +85,7 @@ export default function Auth()
                 }
                 else
                 {
-                    console.log(response.text());
-                    return Promise.reject("Invalid registration provided.")
+                    return Promise.reject("Invalid registration provided: " + response.text())
                 }
             })
             .catch(message =>

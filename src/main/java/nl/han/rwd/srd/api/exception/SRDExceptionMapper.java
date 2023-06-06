@@ -10,6 +10,6 @@ public class SRDExceptionMapper
     @ExceptionHandler(SRDEXception.class)
     public ResponseEntity<String> handleSRDException(SRDEXception ex)
     {
-        return ResponseEntity.internalServerError().body(ex.getMessage());
+        return ResponseEntity.internalServerError().body(ex.getMessage() + ": " + ex.getCause());
     }
 }

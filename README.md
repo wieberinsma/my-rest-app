@@ -1,7 +1,3 @@
-# TODO:
-- Exception handling in SRDExceptionMapper
-- Bindingresuilt validation messages
-
 # Spring React Demo (SRD)
 
 This Demo project was designed for the 'Hogeschool Arnhem en Nijmegen' (HAN) school in The Netherlands, Arnhem to teach
