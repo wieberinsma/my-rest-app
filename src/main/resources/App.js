@@ -1,12 +1,39 @@
 // Core libs
-import React from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 
 // Components
-import Auth from "./static/components/Auth";
+import Login from "./static/components/Login";
+import Registration from "./static/components/Registration";
+import Private from "./static/components/Private";
 
 // Styling
 import "./App.css";
 
-// TODO: Implement React routing & single-page rendering instead of Spring-based routing & templating
-ReactDOM.render(<Auth/>, document.getElementById("root"));
+export default function App()
+{
+    const [authMode, setAuthMode] = useState("signin");
+    const [url, setUrl] = useState("");
+    const [user, setUser] = useState({firstName: '', lastName: '', username: '', password: ''})
+
+    const changeAuthMode = () =>
+    {
+        setAuthMode(authMode === "signin" ? "signup" : "signin");
+    }
+
+    if (!url)
+    {
+        if (authMode === "signin")
+        {
+            return <Login/>;
+        } else if (authMode === "signup")
+        {
+            return <Registration username={user.username} password={user.password}/>;
+        }
+    } else
+    {
+        return <Private username={user.username}/>;
+    }
+}
+
+ReactDOM.render(<Login/>, document.getElementById("root"));

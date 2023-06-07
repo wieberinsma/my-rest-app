@@ -1,4 +1,3 @@
-const path = require('path');
 const os = process.platform;
 const sep = os === 'win32' ? '\\' : '/';
 const resourcePath = [__dirname, 'src', 'main', 'resources'].join(sep);
