@@ -1,10 +1,11 @@
 package nl.han.rwd.srd.domain.user.impl.controller;
 
 import nl.han.rwd.srd.api.exception.SRDEXception;
-import nl.han.rwd.srd.api.exception.SRDExceptionMapper;
 import nl.han.rwd.srd.api.model.RegistrationRequest;
 import nl.han.rwd.srd.database.model.UserEntity;
 import nl.han.rwd.srd.domain.user.spec.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
@@ -15,13 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @RestController
 public class RegistrationController
 {
-    private static final Logger logger = Logger.getLogger(RegistrationController.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(RegistrationController.class);
 
     @Inject
     private UserRepository userRepository;
@@ -30,8 +30,9 @@ public class RegistrationController
     private BCryptPasswordEncoder passwordEncoder;
 
     /**
-     * Includes Hibernate validation for JSR 380 spec. Validation violations are handled via
-     * {@link SRDExceptionMapper}.
+     * Includes Hibernate validation for JSR 380 spec. Validation violations are intercepted and collected via
+     * {@link BindingResult}. Custom {@link SRDEXception} are caught in
+     * {@link nl.han.rwd.srd.api.exception.SRDExceptionMapper}
      */
     @PostMapping(value = "/register")
     public ResponseEntity<String> register(@Valid @RequestBody RegistrationRequest registrationRequest,
@@ -56,7 +57,7 @@ public class RegistrationController
         catch (Exception ex)
         {
             String error = "Failed to register new user.";
-            logger.severe(error);
+            LOG.error(error);
             throw new SRDEXception(error, ex);
         }
     }
@@ -65,7 +66,7 @@ public class RegistrationController
     {
         UserEntity newUserEntity = new UserEntity();
         newUserEntity.setFirstName(registrationRequest.getFirstName());
-        newUserEntity.setLastName(registrationRequest.getLastName());
+        newUserEntity.setLastName(registrationRequest.getLastname());
         newUserEntity.setUsername(registrationRequest.getUsername());
         newUserEntity.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
         return newUserEntity;

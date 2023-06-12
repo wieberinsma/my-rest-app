@@ -94,7 +94,7 @@ public class SRDAuthenticationSuccessHandler implements AuthenticationSuccessHan
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setUsername(authUser);
         loginResponse.setAction("LOGIN");
-        loginResponse.setRedirectUrl("/private");
+        loginResponse.setRedirectUrl("private");
         return loginResponse;
     }
 }

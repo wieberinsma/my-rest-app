@@ -1,3 +1,5 @@
+import React from "react";
+
 export default function Private(props) {
     return (
         <div className="Private-container">

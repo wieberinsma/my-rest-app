@@ -9,7 +9,7 @@ public class RegistrationRequest
 {
     private String firstName;
 
-    private String lastName;
+    private String lastname;
 
     private String username;
 
@@ -27,14 +27,14 @@ public class RegistrationRequest
     }
 
     @NotBlank(message = "Lastname must not be empty.")
-    public String getLastName()
+    public String getLastname()
     {
-        return lastName;
+        return lastname;
     }
 
-    public void setLastName(String lastName)
+    public void setLastname(String lastname)
     {
-        this.lastName = lastName;
+        this.lastname = lastname;
     }
 
     @NotBlank(message = "Username must not be empty.")
